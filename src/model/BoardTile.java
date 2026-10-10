@@ -2,33 +2,61 @@ package model;
 
 public class BoardTile {
 
+    // STATIC 
+    public static final String ASCII_TEMPLATE = "[ ]";
+    
     // ATTRIBUTES
-    public int displayValue = 0;
-
     public boolean flagged = false;
     public boolean containsTrap = false;
     public boolean visible = false;
-
+    public int trapCount = 0;
+    
     // CONSTRUCTOR
-    public BoardTile(boolean containsTrap) {
-        this.containsTrap = containsTrap;
-    }
+    public BoardTile() {}
 
     // METHODS
-    public void setValue(int value) {
-        this.displayValue = value;
+
+    // SET
+    public void setTrapCount(int value) {
+        this.trapCount = value;
     }
 
-    public void toggleFlag() {
-        this.flagged = !this.flagged;
+    public void setFlag(boolean state) {
+        this.flagged = state;
     }
 
-    public void toggleTrap() {
-        this.containsTrap = !this.containsTrap;
+    public void setTrap(boolean state) {
+        this.containsTrap = state;
     }
 
-    public void toggleVisibility() {
-        this.visible = !this.visible;
+    public void setVisibility(boolean state) {
+        this.visible = state;
+    }
+
+    // GET
+    public String getASCII() {
+
+        String tileASCII = BoardTile.ASCII_TEMPLATE;
+        
+        // Applies the modifications to the text
+        int trapCount = this.trapCount;
+        
+        if (this.visible) {
+
+            if (this.containsTrap) {
+
+                tileASCII = "[*]";
+            } else {
+
+                tileASCII = String.format("[%d]", trapCount);  
+            }
+            
+        } else if (this.flagged) {
+
+            tileASCII = "[F]";           
+        }
+
+        return tileASCII;
     }
 
 }
