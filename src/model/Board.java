@@ -18,16 +18,6 @@ public class Board {
         this.boardSize[1] = sy;
     }
 
-    // METHODS
-    private boolean validTile(int x, int y) {
-
-        if (x < 0 || y < 0) {
-            return false;
-        }
-        return x < this.boardSize[0] && y < this.boardSize[1];
-
-    }
-
     // BOARD METHODS
     public void constructBoard() {
 
@@ -50,18 +40,36 @@ public class Board {
 
     }
 
+    public void clearBoard() {
+
+        if (this.board == null) {
+            return;
+        }
+
+        for (List<BoardTile> list: this.board) {
+
+            for (BoardTile tile: list) {
+
+                tile.setTrapCount(0);
+                tile.setTrap(false);
+                tile.setFlag(false);
+                tile.setVisibility(false);
+
+            }
+        }
+
+    }
+
     public StringBuilder read() {
 
         StringBuilder mapASCII = new StringBuilder();
         int tileLength = BoardTile.ASCII_TEMPLATE.length();
         int jumps = 0;
 
-        for (int x = 0; x < this.boardSize[0]; x++) {
+        for (List<BoardTile> list: this.board) {
 
-            for (int y = 0; y < this.boardSize[1]; y++) {
+            for (BoardTile tile: list) {
 
-                var list = this.board.get(x);
-                var tile = list.get(y);
                 String tileASCII = tile.getASCII();
 
                 // Adds the tile to the mapString
@@ -81,10 +89,9 @@ public class Board {
     }
 
     // TILE OPERATIONS
-
     public void addTrap(int x, int y) {
 
-        if (!this.validTile(x, y)) {
+        if (!this.validateTile(x, y)) {
             return;
         }
 
@@ -122,7 +129,7 @@ public class Board {
 
     public void removeTrap(int x, int y) {
 
-        if (!this.validTile(x, y)) {
+        if (!this.validateTile(x, y)) {
             return;
         }
 
@@ -162,7 +169,7 @@ public class Board {
 
     // Add or remove the Tile flag
     public void setFlagState(boolean state, int x, int y) {
-        if (!this.validTile(x, y)) {
+        if (!this.validateTile(x, y)) {
             return;
         }
 
@@ -174,7 +181,7 @@ public class Board {
 
     // Show or hide the Tile info
     public void setVisibility(boolean state, int x, int y) {
-        if (!this.validTile(x, y)) {
+        if (!this.validateTile(x, y)) {
             return;
         }
 
@@ -182,6 +189,16 @@ public class Board {
         var tile = list.get(y);
 
         tile.setVisibility(state);
+    }
+
+    // PRIVATE METHODS
+    private boolean validateTile(int x, int y) {
+
+        if (x < 0 || y < 0) {
+            return false;
+        }
+        return x < this.boardSize[0] && y < this.boardSize[1];
+
     }
 
 };
