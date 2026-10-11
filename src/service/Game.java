@@ -3,21 +3,26 @@ package service;
 // Imports
 
 // Local Imports
-import model.GameBoard;
+import model.Board;
 
 public class Game {
-    
+
     // ATTRIBUTES
-    public GameBoard gb = new GameBoard();
+    public Board board = new Board(10, 10);
 
     // CONSTRUCTOR 
     public Game() {
-        gb.constructBoard();
-        gb.addTrap(4,4);
-        gb.addTrap(4,3);
-        System.out.println(gb.readBoard());
+
+        board.constructBoard();
+        board.addTrap(5, 6);
+        board.addTrap(4, 4);
+
+        System.out.println(board.read());
+
+        board.removeTrap(4, 4);
+
+        System.out.println(board.read());
     }
-    
-    
-    
+
+
 }
