@@ -167,28 +167,14 @@ public class Board {
 
     }
 
-    // Add or remove the Tile flag
-    public void setFlagState(boolean state, int x, int y) {
-        if (!this.validateTile(x, y)) {
-            return;
+    public BoardTile getTile(int x, int y) {
+        if (!validateTile(x, y)) {
+            return null;
         }
 
         var list = this.board.get(x);
-        var tile = list.get(y);
 
-        tile.setFlag(state);
-    }
-
-    // Show or hide the Tile info
-    public void setVisibility(boolean state, int x, int y) {
-        if (!this.validateTile(x, y)) {
-            return;
-        }
-
-        var list = this.board.get(x);
-        var tile = list.get(y);
-
-        tile.setVisibility(state);
+        return list.get(y);
     }
 
     // PRIVATE METHODS
