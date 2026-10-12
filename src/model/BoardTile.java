@@ -6,10 +6,10 @@ public class BoardTile {
     public static final String ASCII_TEMPLATE = "[ ]";
 
     // ATTRIBUTES
-    public boolean flagged = false;
-    public boolean containsTrap = false;
-    public boolean visible = false;
-    public int trapCount = 0;
+    protected boolean flagged = false;
+    protected boolean containsTrap = false;
+    protected boolean visible = false;
+    protected int trapCount = 0;
 
     // CONSTRUCTOR
     public BoardTile() {

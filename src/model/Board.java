@@ -1,12 +1,10 @@
 package model;
 
 // Imports
-
 import java.util.ArrayList;
 import java.util.List;
 
 // Local Imports
-
 public class Board {
 
     // ATTRIBUTES
@@ -46,9 +44,9 @@ public class Board {
             return;
         }
 
-        for (List<BoardTile> list: this.board) {
+        for (List<BoardTile> list : this.board) {
 
-            for (BoardTile tile: list) {
+            for (BoardTile tile : list) {
 
                 tile.setTrapCount(0);
                 tile.setTrap(false);
@@ -66,9 +64,9 @@ public class Board {
         int tileLength = BoardTile.ASCII_TEMPLATE.length();
         int jumps = 0;
 
-        for (List<BoardTile> list: this.board) {
+        for (List<BoardTile> list : this.board) {
 
-            for (BoardTile tile: list) {
+            for (BoardTile tile : list) {
 
                 String tileASCII = tile.getASCII();
 
