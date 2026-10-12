@@ -25,12 +25,12 @@ public class Game {
         System.out.println(board.read());
 
         var scene = new Scene();
-        scene.addLabel("Option 1");
-        scene.addLabel("Option 2");
-        scene.addLabel("Option 3");
+        scene.addLabel("Option A");
+        scene.addLabel("Option B");
+        scene.addLabel("Option C");
 
         String reply = scene.perform();
-        System.out.println(reply);
+
     }
 
     // METHODS
