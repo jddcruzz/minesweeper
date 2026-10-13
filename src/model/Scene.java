@@ -41,13 +41,13 @@ public class Scene {
 
             reply = scanner.nextLine();
 
-            // 1. Is not a number
+            // 1. Check that it is a number
             try {
 
                 numberReply = Integer.parseInt(reply);
                 isReplyValid = true;
 
-            } catch(Exception exc) {
+            } catch (Exception exc) {
 
                 String errorMsg = String.format("'%s' Not a number; please enter a valid character.", reply);
                 System.out.println(errorMsg);
@@ -66,7 +66,7 @@ public class Scene {
 
         } while (!isReplyValid);
 
-        return  reply;
+        return reply;
 
     }
 
