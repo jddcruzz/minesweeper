@@ -1,10 +1,12 @@
 package service;
 
 // Imports
+import java.util.function.Function;
 
 // Local Imports
 import model.Board;
 import model.Scene;
+import util.GameScenes;
 
 public class Game {
 
@@ -24,17 +26,24 @@ public class Game {
 
         System.out.println(board.read());
 
-        var scene = new Scene();
-        scene.addLabel("Option A");
-        scene.addLabel("Option B");
-        scene.addLabel("Option C");
+		var gs = new ScenesManager();
+		Function<String, String> menuFunc = label -> {
+			return "ok";
+		};
 
-        String reply = scene.perform();
+		var menu = new Scene();
+		menu.addLabel("A", "Start Game");
+        menu.addLabel("B", "Configuration");
+        menu.addLabel("C", "Exit");
+
+		menu.perform();
 
     }
 
     // METHODS
     public void start() {
+
+		
 
     }
 

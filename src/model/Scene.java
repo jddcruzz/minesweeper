@@ -1,7 +1,8 @@
 package model;
 
 // Imports
-
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,28 +10,31 @@ import java.util.Scanner;
 public class Scene {
 
     // ATTRIBUTES
-    protected final List<String> labels = new ArrayList<>();
+    protected final Map<String, String> labels = new HashMap<>();
     protected String scannMessage = "Select an option by typing a number.";
-
+	
     protected Scanner scanner = new Scanner(System.in);
     // CONSTRUCTOR
 
     // METHODS
-    public void addLabel(String info) {
-        this.labels.add(info);
-    }
+    public void addLabel(String key, String labelText) {
 
-    public void addLabel(int position, String labelText) {
-        this.labels.add(position, labelText);
+		/** The key is stored in lowercase using `toLowerCase()`,
+		  * and it is accessed by converting the user-provided key
+		  * to lowercase.
+		*/
+        this.labels.put(key.toLowerCase(), labelText);
+		
     }
 
     public String perform() {
 
         var sceneASCCI = this.getSceneASCCI();
-
+		var keySet = this.labels.keySet();
+		
         String reply = null;
-        int numberReply = 0;
         boolean isReplyValid = false;
+		
 
         // Prints
         System.out.println(sceneASCCI);
@@ -39,33 +43,21 @@ public class Scene {
         // Invalid character
         do {
 
-            reply = scanner.nextLine();
+            reply = scanner.nextLine().toLowerCase();
 
-            // 1. Check that it is a number
-            try {
+            // Check that it is a number
+            isReplyValid = keySet.contains(reply);
+				
+            if (!isReplyValid) {
 
-                numberReply = Integer.parseInt(reply);
-                isReplyValid = true;
-
-            } catch (Exception exc) {
-
-                String errorMsg = String.format("'%s' Not a number; please enter a valid character.", reply);
+                String errorMsg = String.format("'%s' Is not an option; please enter a valid character.", reply);
                 System.out.println(errorMsg);
-                isReplyValid = false;
-
-            }
-
-            // 2. Number out of range
-            if (numberReply < 0 || numberReply >= this.labels.size()) {
-
-                String errorMsg = "Please enter a number within the range.";
-                System.out.println(errorMsg);
-                isReplyValid = false;
 
             }
 
         } while (!isReplyValid);
 
+		
         return reply;
 
     }
@@ -73,16 +65,18 @@ public class Scene {
     protected StringBuilder getSceneASCCI() {
         var str = new StringBuilder();
 
-        for (int i = 0; i < this.labels.size(); i++) {
+		for (Map.Entry<String, String> entry : this.labels.entrySet()) {
 
-            str.append("\n");
-
-            String label = this.labels.get(i);
-            String finalLabel = String.format("[%d] " + label, i);
-
-            str.append(finalLabel);
-
-        }
+			str.append("\n");
+			
+			String k = entry.getKey().toUpperCase();
+			String v = entry.getValue();
+			
+			String finalLabel = String.format("[%s] %s", k, v);
+			
+			str.append(finalLabel);
+			
+		}
 
         return str;
     }
