@@ -27,6 +27,11 @@ public class Scene {
 		
     }
 
+	public HashMap<String, String> getLabels() {
+		HashMap<String, String> clone = new HashMap<>(this.labels);
+		return clone;
+	}
+
     public String perform() {
 
         var sceneASCCI = this.getSceneASCCI();

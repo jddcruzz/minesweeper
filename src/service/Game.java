@@ -6,7 +6,7 @@ import java.util.function.Function;
 // Local Imports
 import model.Board;
 import model.Scene;
-import util.GameScenes;
+import service.ScenesManager;
 
 public class Game {
 

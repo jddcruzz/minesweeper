@@ -1,6 +1,7 @@
-package Service;
+package service;
 
 // Imports
+import java.util.Set;
 import java.util.Map;
 import java.util.HashMap ;
 import java.util.function.Supplier;
@@ -9,17 +10,17 @@ import java.util.function.Function;
 // Local Imports
 import model.Scene;
 
-public class GameScenes {
+public class ScenesManager {
 
     // ATTRIBUTES
     private Map<String, Scene> scenes = new HashMap<>();
 	private Map<String, Function<String, ?>> functionMap = new HashMap<>();
 	private Map<String, Map<String, String>> sceneLinks = new HashMap<>();
-
+	
 	private String mainSceneTag = null;
 	
     // CONSTRUCTOR 
-    public GameScenes() {
+    public ScenesManager() {
 
         this.loadScenes();
     }
@@ -35,9 +36,6 @@ public class GameScenes {
 
         this.scenes.put("menu", menu);
 
-		var menuMap 
-		this.sceneLinks.put("menu", new HashMap<>())
-
         // In Game
         var inGame = new Scene();
 
@@ -49,23 +47,30 @@ public class GameScenes {
         
     }
 
-	private void perform() {
+	private void perform(String sceneTag) {
 
 		// Main scene
 		
 		
 	}
 
-	public void addScene(Scene scene) {
+	public void addScene(Scene scene, String sceneTag) {
 
-		
+		boolean tagInUse = this.scenes.containsKey(sceneTag);
+		if (tagInUse) {
+			return;
+		}
+
+		this.scenes.put(sceneTag, scene);
+
+		// Set up scene
+		Set<String> labelsMap = scene.getLabels().keySet();
 		
 	}
 
 	public void setMainScene(String sceneTag) {
 
 		boolean containsKey = this.scenes.containsKey(sceneTag);
-
 		if (!containsKey) {
 			return;
 		}
@@ -75,29 +80,12 @@ public class GameScenes {
 	public void addSceneFunction(String sceneTag, Function<String, ?> func) {
 
 		boolean containsKey = this.scenes.containsKey(sceneTag);
-		
 		if (!containsKey) {
 			return;
 		}
 
-		this.functionMap.put(
-			sceneTag,
-			func
-		);
+		this.functionMap.put(sceneTag, func);
 		
 	}
 
-	public void addSceneLink(String originTag, String targetTag) {
-
-		boolean containsK1 = this.scenes.containsKeys(originTag);
-		boolean containsK2 = this.scenes.containsKey(targetTag);
-
-		if (!containsK1 || !containsK2) {
-			return;
-		}
-		
-		var originLinks = this.sceneLinks.get(originTag);
-		this.sceneLinks.put(originTag, targetTag);
-		
-	}
 }
