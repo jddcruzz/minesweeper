@@ -16,10 +16,9 @@ public class ScenesManager {
     private Map<String, Scene> scenes = new HashMap<>();
 	private Map<String, Function<String, ?>> functionMap = new HashMap<>();
 	private Map<String, Map<String, String>> sceneLinks = new HashMap<>();
-	
-	private String mainSceneTag = null;
-	
-    // CONSTRUCTOR 
+
+    // CONSTRUCTOR 	private String mainSceneTag = null;
+
     public ScenesManager() {
 
         this.loadScenes();
@@ -34,7 +33,7 @@ public class ScenesManager {
         menu.addLabel("B", "Configuration");
         menu.addLabel("C", "Exit");
 
-        this.scenes.put("menu", menu);
+        this.addScene(menu, "menu");
 
         // In Game
         var inGame = new Scene();
@@ -43,49 +42,84 @@ public class ScenesManager {
         inGame.addLabel("B", "Add Flag");
         inGame.addLabel("C", "Exit to menu");
 
-		this.scenes.put("inGame", inGame);
+		this.addScene(inGame, "inGame");
+
+        // Links
+        this.addSceneLink("menu", "a", "inGame");
         
     }
 
-	private void perform(String sceneTag) {
+	public void perform(String sceneTag) {
 
-		// Main scene
-		
+        boolean containsScene = this.scenes.containsKey(sceneTag);
+        if (!containsScene) {return;}
+
+        var scene = this.scenes.get(sceneTag);
+        var reply = scene.perform();
+
+        System.out.println(reply);
+        this.function(sceneTag, reply);
 		
 	}
+
+    private void function(String sceneTag, String sceneReply) {
+
+        // 1. Verify that the scene is registered
+        boolean containsScene = this.scenes.containsKey(sceneTag);
+        if (!containsScene) {return;}
+
+        var links = this.sceneLinks.get(sceneTag);
+
+        // 2. Verify that the label is registered
+        boolean containsLabel = links.containsKey(sceneReply);
+        if (!containsLabel) {return;}
+
+        String targetTag = links.get(sceneReply);
+        if (this.scenes.containsKey(targetTag)) {
+
+            var targetScene = this.scenes.get(targetTag);
+            targetScene.perform();
+
+        }
+
+
+    }
 
 	public void addScene(Scene scene, String sceneTag) {
 
 		boolean tagInUse = this.scenes.containsKey(sceneTag);
-		if (tagInUse) {
-			return;
-		}
-
-		this.scenes.put(sceneTag, scene);
+		if (tagInUse) {return;}
 
 		// Set up scene
-		Set<String> labelsMap = scene.getLabels().keySet();
+        this.scenes.put(sceneTag, scene);
+        this.sceneLinks.put(
+            sceneTag,
+            new HashMap<>()
+        );
 		
 	}
 
-	public void setMainScene(String sceneTag) {
+    public void addSceneLink(String sceneTag, String labelTag, String targetSceneTag) {
 
-		boolean containsKey = this.scenes.containsKey(sceneTag);
-		if (!containsKey) {
-			return;
-		}
-		
-	}
-	
+        // Verify that "scenes" contains both scenes
+        boolean containsScenes =
+            this.scenes.containsKey(sceneTag)
+            && this.scenes.containsKey(targetSceneTag);
+        if (!containsScenes) {return;}
+
+        var links = this.sceneLinks.get(sceneTag);
+        links.put(labelTag, targetSceneTag);
+
+    }
 	public void addSceneFunction(String sceneTag, Function<String, ?> func) {
 
-		boolean containsKey = this.scenes.containsKey(sceneTag);
-		if (!containsKey) {
-			return;
-		}
+		boolean containsScene = this.scenes.containsKey(sceneTag);
+		if (!containsScene) {return;}
 
 		this.functionMap.put(sceneTag, func);
 		
 	}
+
+
 
 }

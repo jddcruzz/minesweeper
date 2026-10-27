@@ -6,7 +6,6 @@ import java.util.function.Function;
 // Local Imports
 import model.Board;
 import model.Scene;
-import service.ScenesManager;
 
 public class Game {
 
@@ -27,16 +26,8 @@ public class Game {
         System.out.println(board.read());
 
 		var gs = new ScenesManager();
-		Function<String, String> menuFunc = label -> {
-			return "ok";
-		};
 
-		var menu = new Scene();
-		menu.addLabel("A", "Start Game");
-        menu.addLabel("B", "Configuration");
-        menu.addLabel("C", "Exit");
-
-		menu.perform();
+        gs.perform("menu");
 
     }
 
