@@ -1,16 +1,14 @@
 package service;
 
 // Imports
-import java.util.Set;
 import java.util.Map;
 import java.util.HashMap ;
-import java.util.function.Supplier;
 import java.util.function.Function;
 
 // Local Imports
 import model.Scene;
 
-public class ScenesManager {
+public class SceneManager {
 
     // ATTRIBUTES
     private Map<String, Scene> scenes = new HashMap<>();
@@ -19,7 +17,7 @@ public class ScenesManager {
 
     // CONSTRUCTOR 	private String mainSceneTag = null;
 
-    public ScenesManager() {
+    public SceneManager() {
 
         this.loadScenes();
     }
@@ -46,42 +44,33 @@ public class ScenesManager {
 
         // Links
         this.addSceneLink("menu", "a", "inGame");
-        
+        this.addSceneLink("inGame", "a", "menu");
     }
 
-	public void perform(String sceneTag) {
+    public String[] once(String sceneTag) {
 
         boolean containsScene = this.scenes.containsKey(sceneTag);
-        if (!containsScene) {return;}
+        if (!containsScene) {return null;}
 
         var scene = this.scenes.get(sceneTag);
         var reply = scene.perform();
+        var next = this.nextScene(sceneTag, reply);
 
-        System.out.println(reply);
-        this.function(sceneTag, reply);
-		
-	}
+        String[] output = {reply, next};
 
-    private void function(String sceneTag, String sceneReply) {
+        return output;
 
-        // 1. Verify that the scene is registered
-        boolean containsScene = this.scenes.containsKey(sceneTag);
-        if (!containsScene) {return;}
+    }
+
+    private String nextScene(String sceneTag, String sceneReply) {
+
+        // Verify that sceneTag is registered in both Maps
+        boolean validScene = this.scenes.containsKey(sceneTag) && this.sceneLinks.containsKey(sceneTag);
+        if (!validScene) {return null;}
 
         var links = this.sceneLinks.get(sceneTag);
 
-        // 2. Verify that the label is registered
-        boolean containsLabel = links.containsKey(sceneReply);
-        if (!containsLabel) {return;}
-
-        String targetTag = links.get(sceneReply);
-        if (this.scenes.containsKey(targetTag)) {
-
-            var targetScene = this.scenes.get(targetTag);
-            targetScene.perform();
-
-        }
-
+        return links.getOrDefault(sceneReply, null);
 
     }
 

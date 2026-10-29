@@ -1,11 +1,9 @@
 package service;
 
 // Imports
-import java.util.function.Function;
 
 // Local Imports
 import model.Board;
-import model.Scene;
 
 public class Game {
 
@@ -25,9 +23,15 @@ public class Game {
 
         System.out.println(board.read());
 
-		var gs = new ScenesManager();
+		var gs = new SceneManager();
 
-        gs.perform("menu");
+        var output = gs.once("menu");
+
+        while (output[0] != null && output[1] != null) {
+            output = gs.once(output[1]);
+            System.out.println(output);
+        }
+
 
     }
 
