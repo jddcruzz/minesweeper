@@ -28,7 +28,8 @@ public class Game {
 
         var output = gs.once("menu");
 
-		System.out.println(Arrays.toString(output);
+		System.out.println(Arrays.toString(output));
+
         while (output[0] != null && output[1] != null) {
             output = gs.once(output[1]);
             System.out.println(Arrays.toString(output));

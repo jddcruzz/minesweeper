@@ -2,60 +2,26 @@ package service;
 
 // Imports
 import java.util.Map;
-import java.util.HashMap ;
+import java.util.HashMap;
 import java.util.function.Function;
 
 // Local Imports
 import model.Scene;
+import util.SceneLoader;
 
 public class SceneManager {
 
     // ATTRIBUTES
-    private Map<String, Scene> scenes = new HashMap<>();
-	private Map<String, Function<String, ?>> functionMap = new HashMap<>();
-	private Map<String, Map<String, String>> sceneLinks = new HashMap<>();
+    private final Map<String, Scene> scenes = new HashMap<>();
+	private final Map<String, Function<String, ?>> functionMap = new HashMap<>();
+	private final Map<String, Map<String, String>> sceneLinks = new HashMap<>();
 
-    // CONSTRUCTOR 	private String mainSceneTag = null;
+    // CONSTRUCTOR
 
     public SceneManager() {
 
-        this.loadScenes();
-    }
+        SceneLoader.load(this);
 
-    private void loadScenes() {
-        
-        // Menu
-        var menu = new Scene();
-        
-        menu.addLabel("A", "Start Game");
-        menu.addLabel("B", "Configuration");
-        menu.addLabel("C", "Exit");
-
-        this.addScene(menu, "menu");
-
-        // In Game
-        var inGame = new Scene();
-
-        inGame.addLabel("A", "Reveal Cell");
-        inGame.addLabel("B", "Add Flag");
-        inGame.addLabel("C", "Exit to menu");
-
-		this.addScene(inGame, "inGame");
-
-		// Configuration
-		var config = new Scene();
-
-		config.addLabel("A", "Map size");
-		config.addLabel("B", "Mines count");
-		config.addLabel("C", "Exit to menu");
-
-		this.addScene(config, "configuration");
-
-        // Links
-        this.addSceneLink("menu", "a", "inGame");
-		this.addSceneLink("menu", "b", "configuration");
-        this.addSceneLink("inGame", "c", "menu");
-		this.addSceneLink("configuration", "c", "menu");
     }
 
     public String[] once(String sceneTag) {
@@ -73,19 +39,7 @@ public class SceneManager {
 
     }
 
-    private String nextScene(String sceneTag, String sceneReply) {
-
-        // Verify that sceneTag is registered in both Maps
-        boolean validScene = this.scenes.containsKey(sceneTag) && this.sceneLinks.containsKey(sceneTag);
-        if (!validScene) {return null;}
-
-        var links = this.sceneLinks.get(sceneTag);
-
-        return links.getOrDefault(sceneReply, null);
-
-    }
-
-	public void addScene(Scene scene, String sceneTag) {
+	public void addScene(String sceneTag, Scene scene) {
 
 		boolean tagInUse = this.scenes.containsKey(sceneTag);
 		if (tagInUse) {return;}
@@ -99,7 +53,7 @@ public class SceneManager {
 		
 	}
 
-    public void addSceneLink(String sceneTag, String labelTag, String targetSceneTag) {
+    public void addSceneLink(String sceneTag, String targetSceneTag, String labelTag) {
 
         // Verify that "scenes" contains both scenes
         boolean containsScenes =
@@ -120,6 +74,16 @@ public class SceneManager {
 		
 	}
 
+    private String nextScene(String sceneTag, String sceneReply) {
 
+        // Verify that sceneTag is registered in both Maps
+        boolean validScene = this.scenes.containsKey(sceneTag) && this.sceneLinks.containsKey(sceneTag);
+        if (!validScene) {return null;}
+
+        var links = this.sceneLinks.get(sceneTag);
+
+        return links.getOrDefault(sceneReply, null);
+
+    }
 
 }

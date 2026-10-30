@@ -3,8 +3,6 @@ package model;
 // Imports
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Scene {
@@ -14,7 +12,17 @@ public class Scene {
     protected String scannMessage = "Select an option by typing a character.";
 	
     protected Scanner scanner = new Scanner(System.in);
+
     // CONSTRUCTOR
+    public Scene() {}
+
+    public Scene(Map<String, String> labels) {
+
+        for (Map.Entry<String, String> entry : labels.entrySet()) {
+            this.addLabel(entry.getKey(), entry.getValue());
+        }
+
+    }
 
     // METHODS
     public void addLabel(String key, String labelText) {
@@ -34,12 +42,11 @@ public class Scene {
 
     public String perform() {
 
-        var sceneASCCI = this.getSceneASCCI();
+        var sceneASCCI = this.getSceneASCII();
 		var keySet = this.labels.keySet();
 		
         String reply = null;
         boolean isReplyValid = false;
-		
 
         // Prints
         System.out.println(sceneASCCI);
@@ -61,13 +68,12 @@ public class Scene {
             }
 
         } while (!isReplyValid);
-
 		
         return reply;
 
     }
 
-    protected StringBuilder getSceneASCCI() {
+    protected StringBuilder getSceneASCII() {
         var str = new StringBuilder();
 
 		for (Map.Entry<String, String> entry : this.labels.entrySet()) {
