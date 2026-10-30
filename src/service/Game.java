@@ -1,6 +1,7 @@
 package service;
 
 // Imports
+import java.util.Arrays;
 
 // Local Imports
 import model.Board;
@@ -27,9 +28,10 @@ public class Game {
 
         var output = gs.once("menu");
 
+		System.out.println(Arrays.toString(output);
         while (output[0] != null && output[1] != null) {
             output = gs.once(output[1]);
-            System.out.println(output);
+            System.out.println(Arrays.toString(output));
         }
 
 

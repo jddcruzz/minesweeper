@@ -11,7 +11,7 @@ public class Scene {
 
     // ATTRIBUTES
     protected final Map<String, String> labels = new HashMap<>();
-    protected String scannMessage = "Select an option by typing a number.";
+    protected String scannMessage = "Select an option by typing a character.";
 	
     protected Scanner scanner = new Scanner(System.in);
     // CONSTRUCTOR

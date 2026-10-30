@@ -42,9 +42,20 @@ public class SceneManager {
 
 		this.addScene(inGame, "inGame");
 
+		// Configuration
+		var config = new Scene();
+
+		config.addLabel("A", "Map size");
+		config.addLabel("B", "Mines count");
+		config.addLabel("C", "Exit to menu");
+
+		this.addScene(config, "configuration");
+
         // Links
         this.addSceneLink("menu", "a", "inGame");
-        this.addSceneLink("inGame", "a", "menu");
+		this.addSceneLink("menu", "b", "configuration");
+        this.addSceneLink("inGame", "c", "menu");
+		this.addSceneLink("configuration", "c", "menu");
     }
 
     public String[] once(String sceneTag) {
