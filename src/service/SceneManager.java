@@ -3,6 +3,7 @@ package service;
 // Imports
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.function.Function;
 
 // Local Imports
@@ -24,13 +25,13 @@ public class SceneManager {
 
     }
 
-    public String[] once(String sceneTag) {
+    public String[] once(String sceneTag, Scanner consoleIn) {
 
         boolean containsScene = this.scenes.containsKey(sceneTag);
         if (!containsScene) {return null;}
 
         var scene = this.scenes.get(sceneTag);
-        var reply = scene.perform();
+        var reply = scene.perform(consoleIn);
         var next = this.nextScene(sceneTag, reply);
 
         String[] output = {reply, next};
@@ -81,7 +82,6 @@ public class SceneManager {
         if (!validScene) {return null;}
 
         var links = this.sceneLinks.get(sceneTag);
-
         return links.getOrDefault(sceneReply, null);
 
     }

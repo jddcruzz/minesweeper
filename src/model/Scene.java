@@ -40,7 +40,7 @@ public class Scene {
 		return clone;
 	}
 
-    public String perform() {
+    public String perform(Scanner sc) {
 
         var sceneASCCI = this.getSceneASCII();
 		var keySet = this.labels.keySet();
@@ -55,7 +55,7 @@ public class Scene {
         // Invalid character
         do {
 
-            reply = scanner.nextLine().toLowerCase();
+            reply = sc.nextLine().toLowerCase();
 
             // Check that it is a number
             isReplyValid = keySet.contains(reply);
