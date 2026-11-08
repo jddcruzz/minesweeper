@@ -17,6 +17,14 @@ public class Board {
     }
 
     // BOARD METHODS
+	public void setBoardSize(int x, int y) {
+		this.boardSize[0] = x;
+		this.boardSize[1] = y;
+	}
+	public int[] getBoardSize() {
+		return this.boardSize;
+	}
+	
     public void constructBoard() {
 
         this.board.clear();

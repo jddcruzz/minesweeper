@@ -2,7 +2,7 @@
 // Imports
 
 // Local Imports
-import system.Game;
+import system.game.Game;
 
 public class Main {
 

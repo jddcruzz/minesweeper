@@ -1,31 +1,27 @@
-package system;
+package system.game;
 
 // Imports
 import java.util.Scanner;
 
 // Local Imports
-import model.Board;
+import util.GameConfig;
+import system.game.GameMatch;
 import service.ConsoleManager;
 
 public class Game {
 
     // ATTRIBUTES
-    public Board board = new Board(10, 10);
+	public int[] bs = GameConfig.getBoardSize();
+    public GameMatch gm = new GameMatch(bs[0], bs[1]);
 
     // CONSTRUCTOR 
     public Game() {
-
+		
         var scanner = new Scanner(System.in);
         var console = new ConsoleManager();
 
-        board.constructBoard();
-        board.addTrap(5, 6);
-        board.addTrap(4, 4);
-
-        System.out.println(board.read());
-        board.removeTrap(4, 4);
-        System.out.println(board.read());
-
+		System.out.println(gm.readGameBoard());
+		
         console.run();
 
     }
