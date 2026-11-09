@@ -2,7 +2,6 @@
 # --- Directories ---
 .idea/
 bin/
-out/
 
 # --- Files ---
 minesweeper.iml

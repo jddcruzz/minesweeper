@@ -15,21 +15,10 @@ public class Game {
     public GameMatch gm = new GameMatch(bs[0], bs[1]);
 
     // CONSTRUCTOR 
-    public Game() {
-		
-        var scanner = new Scanner(System.in);
-        var console = new ConsoleManager();
-
-		System.out.println(gm.readGameBoard());
-		
-        console.run();
-
-    }
+    public Game() {}
 
     // METHODS
     public void start() {
-
-		
 
     }
 

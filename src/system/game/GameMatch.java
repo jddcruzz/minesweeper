@@ -8,12 +8,14 @@ import model.Board;
 
 public class GameMatch {
 
-    // ATTRIBUTES
+    // STATIC
 	private static final String[] GAME_STATES = {
-		"off",
-		"running"
-	}
-	
+		"defeat",
+		"running",
+        "win"
+	};
+
+    // ATTRIBUTES
     private final Board gameBoard;
 	private String gameState = GameMatch.GAME_STATES[0];
 
@@ -21,45 +23,21 @@ public class GameMatch {
     public GameMatch(int sx, int sy) {		
         this.gameBoard = new Board(sx, sy);
 		this.gameBoard.constructBoard();
-		this.setUp();
     }
-
-	public void start() {
-		this.gameState = GameMatch.GAME_STATES[1];
-	}
 
     // METHODS
-	public StringBuilder readGameBoard() {
-		return this.gameBoard.read();
-	}
-	
-    public void revealTile(int x, int y) {
+    public void start() {
 
-        var tile = this.gameBoard.getTile(x, y);
-        if (tile == null) {
-            return;
-        }
-
-        tile.setVisibility(true);
-
-    }
-
-    public void toggleFlag(int x, int y) {
-
-        var tile = this.gameBoard.getTile(x, y);
-        boolean flag = false;
-
-        if (tile == null) {
-            return;
-        }
-
-        flag = tile.isFlagged();
-        tile.setFlag(!flag);
+        this.gameState = GameMatch.GAME_STATES[1];
+        this.setUp();
 
     }
 
 	private void setUp() {
-		
+
+        boolean gameRunning = GameMatch.GAME_STATES[1].equals(this.gameState);
+        if (gameRunning) {return;}
+
 		int[] boardSize = this.gameBoard.getBoardSize();
 		int minesPlaced = 0;
 		int minesCount = Math.min(
@@ -75,15 +53,51 @@ public class GameMatch {
 
 			if (tile != null) {
 
-				if (tile.trapState() == true) {continue;}
+				if (tile.trapState()) {continue;}
 
 				this.gameBoard.addTrap(rnX, rnY);
 				minesPlaced += 1;
 				
 			}
-			
 		}
-		
 	}
+
+    // In game Methods
+    public StringBuilder readGameBoard() {
+        return this.gameBoard.read();
+    }
+
+    public void checkGameState() {
+
+
+
+    }
+    public void revealTile(int x, int y) {
+
+        var tile = this.gameBoard.getTile(x, y);
+        if (tile == null) {
+            return;
+        }
+
+        tile.setVisibility(true);
+
+
+    }
+
+
+
+    public void toggleFlag(int x, int y) {
+
+        var tile = this.gameBoard.getTile(x, y);
+        boolean flag = false;
+
+        if (tile == null) {
+            return;
+        }
+
+        flag = tile.isFlagged();
+        tile.setFlag(!flag);
+
+    }
 
 }

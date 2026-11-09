@@ -67,9 +67,7 @@ public class BoardTile {
             }
 
         } else if (this.flagged) {
-
             tileASCII = "[F]";
-
         }
 
         return tileASCII;
