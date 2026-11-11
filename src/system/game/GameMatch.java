@@ -17,7 +17,9 @@ public class GameMatch {
 
     // ATTRIBUTES
     private final Board gameBoard;
-	private String gameState = GameMatch.GAME_STATES[0];
+
+    private String gameState = GameMatch.GAME_STATES[0];
+    private int localMineCount = 0;
 
     // CONSTRUCTOR
     public GameMatch(int sx, int sy) {		
@@ -28,8 +30,9 @@ public class GameMatch {
     // METHODS
     public void start() {
 
-        this.gameState = GameMatch.GAME_STATES[1];
         this.setUp();
+        this.gameState = GameMatch.GAME_STATES[1];
+        System.out.println(this.checkGameState());
 
     }
 
@@ -40,12 +43,12 @@ public class GameMatch {
 
 		int[] boardSize = this.gameBoard.getBoardSize();
 		int minesPlaced = 0;
-		int minesCount = Math.min(
+		this.localMineCount = Math.min(
 			GameConfig.getMinesCount(),
 			boardSize[0] * boardSize[1]
 		);
 		
-		while (minesPlaced < minesCount) {
+		while (minesPlaced < this.localMineCount) {
 			
 			int rnX = (int) (Math.random() * boardSize[0]);
 			int rnY = (int) (Math.random() * boardSize[1]);
@@ -55,7 +58,7 @@ public class GameMatch {
 
 				if (tile.trapState()) {continue;}
 
-				this.gameBoard.addTrap(rnX, rnY);
+                this.gameBoard.addTrap(rnX, rnY);
 				minesPlaced += 1;
 				
 			}
@@ -67,10 +70,51 @@ public class GameMatch {
         return this.gameBoard.read();
     }
 
-    public void checkGameState() {
+    public String checkGameState() {
 
+        String defeat = GameMatch.GAME_STATES[0];
+        String running = GameMatch.GAME_STATES[1];
+        String win = GameMatch.GAME_STATES[2];
 
+        int[] boardSize = this.gameBoard.getBoardSize();
+        int hiddenTraps = 0;
+        String state = running;
 
+        for (int x = 0; x < boardSize[0]; x++) {
+
+            for (int y = 0; y < boardSize[1]; y++) {
+
+                var tile = this.gameBoard.getTile(x, y);
+                if (tile == null) {continue;}
+
+                // 1. If the trap was found
+                boolean trapFound = tile.trapState() && tile.isVisible();
+                if (trapFound) {
+                    System.out.println("perdistepa");
+                    state = defeat;
+                    break;
+                }
+
+                // 2. Counts the hidden traps
+                boolean hiddenTrap = tile.trapState() && !tile.isVisible();
+                if (hiddenTrap) {
+                    hiddenTraps++;
+                }
+            }
+
+            // Breaks if a trap is found
+            if (state.equals(defeat)) {
+                break;
+            }
+        }
+
+        // Wins when all cells are uncovered, except for those that contain mines
+        boolean victory = !state.equals(defeat) && (hiddenTraps == this.localMineCount);
+        if (victory) {
+            state = win;
+        }
+
+        return state;
     }
     public void revealTile(int x, int y) {
 
@@ -81,10 +125,7 @@ public class GameMatch {
 
         tile.setVisibility(true);
 
-
     }
-
-
 
     public void toggleFlag(int x, int y) {
 

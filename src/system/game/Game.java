@@ -19,7 +19,8 @@ public class Game {
 
     // METHODS
     public void start() {
-
+        this.gm.start();
+        System.out.println(this.gm.readGameBoard());
     }
 
 
