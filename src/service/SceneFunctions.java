@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 // Local Imports
+import util.GameConfig;
+
 public class SceneFunctions {
 
     // ATTRIBUTES
@@ -31,8 +33,8 @@ public class SceneFunctions {
 				int newX = 0;
 				int newY = 0;
 
+                // Width
 				while (newX < 1) {
-
 					try {
 
 						System.out.println("Enter the map width:");
@@ -41,15 +43,32 @@ public class SceneFunctions {
 						if (newX < 1) {
 							System.out.println("The width must be at least 1!");
 						}
-						
+
 					} catch (Exception e) {
 						System.out.println("Please enter a valid integer!");
 						SceneFunctions.sc.next();
 					}
-
 				}
-				System.out.println(newX);
-				
+
+                // Height
+                while (newY < 1) {
+                    try {
+
+                        System.out.println("Enter the map height:");
+                        newY = SceneFunctions.sc.nextInt();
+
+                        if (newY < 1) {
+                            System.out.println("The width must be at least 1!");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Please enter a valid integer!");
+                        SceneFunctions.sc.next();
+                    }
+                }
+
+                GameConfig.setBoardSize(newX, newY);
+
 			// Mines count
 			} else if (optionB) {
 
