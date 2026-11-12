@@ -21,6 +21,7 @@ public class Board {
 		this.boardSize[0] = x;
 		this.boardSize[1] = y;
 	}
+	
 	public int[] getBoardSize() {
 		return this.boardSize;
 	}

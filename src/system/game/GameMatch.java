@@ -17,7 +17,6 @@ public class GameMatch {
 
     // ATTRIBUTES
     private final Board gameBoard;
-
     private String gameState = GameMatch.GAME_STATES[0];
     private int localMineCount = 0;
 
@@ -72,6 +71,7 @@ public class GameMatch {
 
     public String checkGameState() {
 
+		// States
         String defeat = GameMatch.GAME_STATES[0];
         String running = GameMatch.GAME_STATES[1];
         String win = GameMatch.GAME_STATES[2];
@@ -81,7 +81,7 @@ public class GameMatch {
         String state = running;
 
         for (int x = 0; x < boardSize[0]; x++) {
-
+			
             for (int y = 0; y < boardSize[1]; y++) {
 
                 var tile = this.gameBoard.getTile(x, y);
@@ -90,7 +90,6 @@ public class GameMatch {
                 // 1. If the trap was found
                 boolean trapFound = tile.trapState() && tile.isVisible();
                 if (trapFound) {
-                    System.out.println("perdistepa");
                     state = defeat;
                     break;
                 }
@@ -116,6 +115,7 @@ public class GameMatch {
 
         return state;
     }
+	
     public void revealTile(int x, int y) {
 
         var tile = this.gameBoard.getTile(x, y);
@@ -140,5 +140,4 @@ public class GameMatch {
         tile.setFlag(!flag);
 
     }
-
 }

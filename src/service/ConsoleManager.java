@@ -10,12 +10,14 @@ public class ConsoleManager {
     // ATTRIBUTES
     private final Scanner consoleIn = new Scanner(System.in);
     private final SceneManager sceneMgr = new SceneManager();
-
+	
     private boolean running = false;
-
+	
     // CONSTRUCTOR
     public ConsoleManager() {
 
+		SceneFunctions.functionMap.get("config").apply("A");
+		
     }
 
     // METHODS
@@ -34,7 +36,6 @@ public class ConsoleManager {
             };
 
             if (output[1] == null) {
-
                 this.running = false;
             } else {
 

@@ -13,6 +13,7 @@ public class Game {
     // ATTRIBUTES
 	public int[] bs = GameConfig.getBoardSize();
     public GameMatch gm = new GameMatch(bs[0], bs[1]);
+	public ConsoleManager cm = new ConsoleManager();
 
     // CONSTRUCTOR 
     public Game() {}
