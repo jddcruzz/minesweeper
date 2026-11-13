@@ -12,9 +12,8 @@ import util.GameConfig;
 
 public class SceneFunctions {
 
-    // ATTRIBUTES
+    // STATIC
 	private static final Scanner sc = new Scanner(System.in);
-	
 	public static final Map<String, Function<String, Boolean>> functionMap = new HashMap<>(Map.of(
 
 		"menu", str -> {
@@ -30,48 +29,66 @@ public class SceneFunctions {
 			// Map size
 			if (optionA) {
 
-				int newX = 0;
-				int newY = 0;
+				String[] labels = {"width: ", "height: "};
+				int[] newSize = {0, 0};
+				int n = 0;
 
-                // Width
-				while (newX < 1) {
+				while (newSize[0] < 1 || newSize[1] < 1) {
+					
+					if (newSize[n] > 0) {continue;}
+
 					try {
 
-						System.out.println("Enter the map width:");
-						newX = SceneFunctions.sc.nextInt();
+						System.out.println("Enter the map " + labels[n]);
+						newSize[n] = SceneFunctions.sc.nextInt();
 
-						if (newX < 1) {
-							System.out.println("The width must be at least 1!");
+						// Updates "n" only if the new size is valid
+						boolean success = newSize[n] > 0;
+						
+						if (success) {
+							n = (n + 1) % (2);
+						} else {
+							System.out.println("The " + labels[n] + " must be at least 1!");
 						}
-
+						
 					} catch (Exception e) {
+						
+						// This clears the Scanner buffer
 						System.out.println("Please enter a valid integer!");
 						SceneFunctions.sc.next();
+						
 					}
 				}
 
-                // Height
-                while (newY < 1) {
-                    try {
-
-                        System.out.println("Enter the map height:");
-                        newY = SceneFunctions.sc.nextInt();
-
-                        if (newY < 1) {
-                            System.out.println("The width must be at least 1!");
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println("Please enter a valid integer!");
-                        SceneFunctions.sc.next();
-                    }
-                }
-
-                GameConfig.setBoardSize(newX, newY);
+                GameConfig.setBoardSize(newSize[0], newSize[1]);
 
 			// Mines count
 			} else if (optionB) {
 
+				int newVal = 0;
+
+				while (newVal < 1) {
+
+					try {
+
+						System.out.println("Enter the mines number: ");
+						newVal = SceneFunctions.sc.nextInt();
+
+						boolean success = newVal > 0;
+						if (!success) {
+							System.out.println("The value must be at least 1!");
+						}
+						
+					} catch (Exception e) {
+
+						// This clears the Scanner buffer
+						System.out.println("Please enter a valid integer!");
+						SceneFunctions.sc.next();
+						
+					}
+				}
+
+				GameConfig.setMinesCount(newVal);
 			}
 			
 			return true;

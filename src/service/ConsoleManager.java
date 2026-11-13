@@ -17,6 +17,8 @@ public class ConsoleManager {
     public ConsoleManager() {
 
 		SceneFunctions.functionMap.get("config").apply("A");
+		SceneFunctions.functionMap.get("config").apply("b");
+		
 		
     }
 
