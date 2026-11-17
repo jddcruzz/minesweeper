@@ -61,10 +61,9 @@ public class Scene {
             isReplyValid = keySet.contains(reply);
 				
             if (!isReplyValid) {
-
-                String errorMsg = String.format("'%s' Is not an option; please enter a valid character.", reply);
+                String errorMsg = String.format("'%s' Is not an option, please enter a valid character.", reply);
                 System.out.println(errorMsg);
-
+                System.out.println(this.getSceneASCII());
             }
 
         } while (!isReplyValid);
@@ -82,7 +81,6 @@ public class Scene {
 			
 			String k = entry.getKey().toUpperCase();
 			String v = entry.getValue();
-			
 			String finalLabel = String.format("[%s] %s", k, v);
 			
 			str.append(finalLabel);

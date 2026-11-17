@@ -1,28 +1,34 @@
 package system.game;
 
 // Imports
-import java.util.Scanner;
 
 // Local Imports
+import service.SceneManager;
 import util.GameConfig;
-import system.game.GameMatch;
-import service.ConsoleManager;
+
+import java.util.Scanner;
 
 public class Game {
 
     // ATTRIBUTES
-	public int[] bs = GameConfig.getBoardSize();
-    public ConsoleManager cm = new ConsoleManager();
-    public GameMatch gm = new GameMatch(bs[0], bs[1]);
+    public final Scanner consoleIn = new Scanner(System.in);
+    public GameHandler gameHdr;
+    public SceneManager sceneMgr;
 
 
     // CONSTRUCTOR 
-    public Game() {}
+    public Game() {
+
+        // Set up
+        int[] boardSize = GameConfig.getBoardSize();
+
+        this.gameHdr = new GameHandler(boardSize[0], boardSize[1]);
+        this.sceneMgr = new SceneManager(this.gameHdr, this.consoleIn);
+    }
 
     // METHODS
     public void start() {
-        this.gm.start();
-        System.out.println(this.gm.readGameBoard());
+        this.sceneMgr.run("menu");
     }
 
 

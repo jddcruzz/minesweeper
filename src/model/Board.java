@@ -9,14 +9,14 @@ public class Board {
 
     // ATTRIBUTES
     protected int[] boardSize = {10, 10};
-    protected List<List<BoardTile>> board = new ArrayList<>();
+    protected List<List<Tile>> board = new ArrayList<>();
 
     public Board(int sx, int sy) {
         this.boardSize[0] = sx;
         this.boardSize[1] = sy;
     }
 
-    // BOARD METHODS
+    // Board Methods
 	public void setBoardSize(int x, int y) {
 		this.boardSize[0] = x;
 		this.boardSize[1] = y;
@@ -37,7 +37,7 @@ public class Board {
             for (int y = 0; y < this.boardSize[1]; y++) {
 
                 var list = this.board.get(x);
-                var tile = new BoardTile();
+                var tile = new Tile();
 
                 tile.setVisibility(true);
                 list.add(tile);
@@ -53,9 +53,9 @@ public class Board {
             return;
         }
 
-        for (List<BoardTile> list : this.board) {
+        for (List<Tile> list : this.board) {
 
-            for (BoardTile tile : list) {
+            for (Tile tile : list) {
 
                 tile.setTrapCount(0);
                 tile.setTrap(false);
@@ -70,12 +70,12 @@ public class Board {
     public StringBuilder read() {
 
         StringBuilder mapASCII = new StringBuilder();
-        int tileLength = BoardTile.ASCII_TEMPLATE.length();
+        int tileLength = Tile.ASCII_TEMPLATE.length();
         int jumps = 0;
 
-        for (List<BoardTile> list : this.board) {
+        for (List<Tile> list : this.board) {
 
-            for (BoardTile tile : list) {
+            for (Tile tile : list) {
 
                 String tileASCII = tile.getASCII();
 
@@ -95,7 +95,7 @@ public class Board {
         return mapASCII;
     }
 
-    // TILE OPERATIONS
+    // Tile Operations
     public void addTrap(int x, int y) {
 
         if (!this.validateTile(x, y)) {
@@ -174,7 +174,7 @@ public class Board {
 
     }
 
-    public BoardTile getTile(int x, int y) {
+    public Tile getTile(int x, int y) {
         if (!validateTile(x, y)) {
             return null;
         }
@@ -184,7 +184,7 @@ public class Board {
         return list.get(y);
     }
 
-    // PRIVATE METHODS
+    // Private Methods
     private boolean validateTile(int x, int y) {
 
         if (x < 0 || y < 0) {

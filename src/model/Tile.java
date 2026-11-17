@@ -1,6 +1,6 @@
 package model;
 
-public class BoardTile {
+public class Tile {
 
     // STATIC 
     public static final String ASCII_TEMPLATE = "[ ]";
@@ -12,7 +12,7 @@ public class BoardTile {
     protected int trapCount = 0;
 
     // CONSTRUCTOR
-    public BoardTile() {
+    public Tile() {
     }
 
     // METHODS
@@ -53,7 +53,7 @@ public class BoardTile {
 
     public String getASCII() {
 
-        String tileASCII = BoardTile.ASCII_TEMPLATE;
+        String tileASCII = Tile.ASCII_TEMPLATE;
 
         // Applies the modifications to the text
         int trapCount = this.trapCount;

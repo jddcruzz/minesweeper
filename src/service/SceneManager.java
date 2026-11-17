@@ -4,34 +4,71 @@ package service;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.function.Function;
 
 // Local Imports
 import model.Scene;
+import system.game.GameHandler;
 import util.SceneLoader;
 
 public class SceneManager {
 
     // ATTRIBUTES
-    private final Map<String, Scene> scenes = new HashMap<>();
-	private final Map<String, Function<String, ?>> functionMap = new HashMap<>();
-	private final Map<String, Map<String, String>> sceneLinks = new HashMap<>();
+    private final Map<String, Scene> scenes;
+	private final Map<String, Map<String, String>> sceneLinks;
+
+    private final Scanner consoleIn;
+    private final SceneFunctions functions;
+    private final GameHandler gameHdr;
+
+    private boolean running = false;
 
     // CONSTRUCTOR
+    public SceneManager(GameHandler gameHdr, Scanner consoleIn) {
 
-    public SceneManager() {
+        this.scenes = new HashMap<>();
+        this.sceneLinks = new HashMap<>();
+        this.functions = new SceneFunctions(consoleIn);
 
+        this.gameHdr = gameHdr;
+        this.consoleIn = consoleIn;
+
+        this.functions.loadGameHdr(gameHdr);
         SceneLoader.load(this);
 
     }
 
-    public String[] once(String sceneTag, Scanner consoleIn) {
+    // METHODS
+    public void run(String startFrom) {
+
+        this.running = true;
+        var currentScene = startFrom;
+
+        while (this.running) {
+
+            // output = {sceneReply, nextScene}
+            var output = this.once(currentScene);
+            String[] reply = {
+                currentScene,
+                output[0]
+            };
+
+            if (output[1] != null) {
+                currentScene = output[1];
+            }
+
+            // Stops the loop if the function returns false
+            this.running = this.functions.runFunction(reply);
+
+        }
+    }
+
+    public String[] once(String sceneTag) {
 
         boolean containsScene = this.scenes.containsKey(sceneTag);
         if (!containsScene) {return null;}
 
         var scene = this.scenes.get(sceneTag);
-        var reply = scene.perform(consoleIn);
+        var reply = scene.perform(this.consoleIn);
         var next = this.nextScene(sceneTag, reply);
 
         String[] output = {reply, next};
@@ -57,8 +94,7 @@ public class SceneManager {
     public void addSceneLink(String sceneTag, String targetSceneTag, String labelTag) {
 
         // Verify that "scenes" contains both scenes
-        boolean containsScenes =
-            this.scenes.containsKey(sceneTag)
+        boolean containsScenes = this.scenes.containsKey(sceneTag)
             && this.scenes.containsKey(targetSceneTag);
         if (!containsScenes) {return;}
 
@@ -66,14 +102,6 @@ public class SceneManager {
         links.put(labelTag, targetSceneTag);
 
     }
-	public void addSceneFunction(String sceneTag, Function<String, ?> func) {
-
-		boolean containsScene = this.scenes.containsKey(sceneTag);
-		if (!containsScene) {return;}
-
-		this.functionMap.put(sceneTag, func);
-		
-	}
 
     private String nextScene(String sceneTag, String sceneReply) {
 

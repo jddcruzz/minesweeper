@@ -6,7 +6,7 @@ package system.game;
 import util.GameConfig;
 import model.Board;
 
-public class GameMatch {
+public class GameHandler {
 
     // STATIC
 	private static final String[] GAME_STATES = {
@@ -17,11 +17,11 @@ public class GameMatch {
 
     // ATTRIBUTES
     private final Board gameBoard;
-    private String gameState = GameMatch.GAME_STATES[0];
+    private String gameState = GameHandler.GAME_STATES[0];
     private int localMineCount = 0;
 
     // CONSTRUCTOR
-    public GameMatch(int sx, int sy) {		
+    public GameHandler(int sx, int sy) {
         this.gameBoard = new Board(sx, sy);
 		this.gameBoard.constructBoard();
     }
@@ -30,23 +30,32 @@ public class GameMatch {
     public void start() {
 
         this.setUp();
-        this.gameState = GameMatch.GAME_STATES[1];
-        System.out.println(this.checkGameState());
+        this.gameState = GameHandler.GAME_STATES[1];
 
+    }
+
+    public void stop() {
+        this.gameState = GameHandler.GAME_STATES[0];
     }
 
 	private void setUp() {
 
-        boolean gameRunning = GameMatch.GAME_STATES[1].equals(this.gameState);
+        // The game must not be running in order to configure it
+        boolean gameRunning = GameHandler.GAME_STATES[1].equals(this.gameState);
         if (gameRunning) {return;}
 
-		int[] boardSize = this.gameBoard.getBoardSize();
-		int minesPlaced = 0;
+		int[] boardSize = GameConfig.getBoardSize();
+        int minesPlaced = 0;
+
+        // Update the map size and the number of mines according to the game settings
 		this.localMineCount = Math.min(
 			GameConfig.getMinesCount(),
 			boardSize[0] * boardSize[1]
 		);
-		
+        this.gameBoard.setBoardSize(boardSize[0], boardSize[1]);
+        this.gameBoard.constructBoard();
+
+        // Place the mines on the map
 		while (minesPlaced < this.localMineCount) {
 			
 			int rnX = (int) (Math.random() * boardSize[0]);
@@ -72,9 +81,9 @@ public class GameMatch {
     public String checkGameState() {
 
 		// States
-        String defeat = GameMatch.GAME_STATES[0];
-        String running = GameMatch.GAME_STATES[1];
-        String win = GameMatch.GAME_STATES[2];
+        String defeat = GameHandler.GAME_STATES[0];
+        String running = GameHandler.GAME_STATES[1];
+        String win = GameHandler.GAME_STATES[2];
 
         int[] boardSize = this.gameBoard.getBoardSize();
         int hiddenTraps = 0;
