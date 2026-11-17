@@ -40,7 +40,9 @@ public class Console {
 
             } catch (NullPointerException e) {
                 System.out.println("Please enter the values in the specified format!");
-            }
+            } catch (NumberFormatException e) {
+				System.out.println("The number you entered is too long!");
+			}
         }
 
         return coordinate;

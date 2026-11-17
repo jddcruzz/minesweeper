@@ -53,6 +53,12 @@ public class SceneFunctions {
                 // Ask the user for two integers
                 int[] coordinate = Console.reqTwoIntegers(this.consoleIn, true);
 
+				this.gameHdr.revealTile(
+					coordinate[0],
+					coordinate[1]
+				);
+				System.out.println(this.gameHdr.readGameBoard());
+
             } else if (optionB) {
 
 

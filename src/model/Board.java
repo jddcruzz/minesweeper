@@ -39,7 +39,7 @@ public class Board {
                 var list = this.board.get(x);
                 var tile = new Tile();
 
-                tile.setVisibility(true);
+                tile.setVisibility(false);
                 list.add(tile);
 
             }
