@@ -48,6 +48,7 @@ public class SceneFunctions {
             boolean optionA = str.toLowerCase().equals("a");
             boolean optionB = str.toLowerCase().equals("b");
 
+			// Reveal tile
             if (optionA) {
 
                 // Ask the user for two integers
@@ -57,11 +58,18 @@ public class SceneFunctions {
 					coordinate[0],
 					coordinate[1]
 				);
-				System.out.println(this.gameHdr.readGameBoard());
 
+			// Toggle flag
             } else if (optionB) {
 
+				// Ask the user for two integers
+				int[] coordinate = Console.reqTwoIntegers(this.consoleIn, true);
 
+				this.gameHdr.toggleFlag(
+					coordinate[0],
+					coordinate[1]
+				);
+				
             }
 
             return true;
@@ -81,37 +89,6 @@ public class SceneFunctions {
                 int[] newSize = Console.reqTwoIntegers(this.consoleIn, true);
                 newSize[0] = Math.clamp(newSize[0], 1, 1000);
                 newSize[1] = Math.clamp(newSize[1], 1, 1000);
-
-				/*String[] labels = {"height: ", "width: "};
-				int[] newSize = {0, 0};
-				int n = 0;
-
-				while (newSize[0] < 1 || newSize[1] < 1) {
-					
-					if (newSize[n] > 0) {continue;}
-
-					try {
-
-						System.out.println("Enter the map " + labels[n]);
-
-                        // This clears the Scanner buffer
-                        newSize[n] = this.consoleIn.nextInt();
-                        this.consoleIn.nextLine();
-
-						// Updates "n" only if the new size is valid
-						boolean success = newSize[n] > 0;
-						
-						if (success) {
-							n = (n + 1) % (2);
-						} else {
-							System.out.println("The " + labels[n] + " must be at least 1!");
-						}
-						
-					} catch (Exception e) {
-                        this.consoleIn.nextLine();
-                        System.out.println("Please enter a valid integer!");
-					}
-				}*/
 
                 GameConfig.setBoardSize(newSize[0], newSize[1]);
 
@@ -160,14 +137,14 @@ public class SceneFunctions {
         this.gameHdr = gameHdr;
     }
 
-    public boolean runFunction(String[] data) {
+    public boolean runFunction(String sceneTag, String output) {
 
-        boolean containsScene = this.functionMap.containsKey(data[0]);
+        boolean containsScene = this.functionMap.containsKey(sceneTag);
         boolean functionOutput = false;
 
         if (containsScene) {
-            var f = this.functionMap.get(data[0]);
-            functionOutput = f.apply(data[1]);
+            var f = this.functionMap.get(sceneTag);
+            functionOutput = f.apply(output);
         }
 
         return functionOutput;

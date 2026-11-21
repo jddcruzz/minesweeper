@@ -15,6 +15,9 @@ public class Game {
     public GameHandler gameHdr;
     public SceneManager sceneMgr;
 
+	public final String startPoint = "menu";
+	public boolean gameRunning = false;
+
 
     // CONSTRUCTOR 
     public Game() {
@@ -28,8 +31,32 @@ public class Game {
 
     // METHODS
     public void start() {
-        this.sceneMgr.run("menu");
+		this.gameRunning = true;
+        this.scenesLoop();
+		
     }
 
+	public void scenesLoop() {
+		
+		String currentScene = this.startPoint;
+
+        while (this.gameRunning) {
+
+            // output = {sceneReply, nextScene}
+            var output = this.sceneMgr.once(currentScene);
+            String[] reply = {
+                currentScene,
+                output[0]
+            };
+
+            if (output[1] != null) {
+                currentScene = output[1];
+            }
+
+            // Stops the loop if the function returns false
+            this.gameRunning = this.sceneMgr.performFunction(currentScene, output[0]);
+
+        }
+	}
 
 }

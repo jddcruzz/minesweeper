@@ -24,7 +24,7 @@ public class SceneLoader {
         "inGame", new Scene(Map.of(
 
             "A", "Reveal Cell",
-            "B", "Add Flag",
+            "B", "Add or remove Flag",
             "C", "Exit to menu"
 
         )),

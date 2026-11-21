@@ -11,7 +11,7 @@ public class GameHandler {
     // STATIC
 	private static final String[] GAME_STATES = {
 		"defeat",
-		"running",
+		"null",
         "win"
 	};
 
@@ -133,6 +133,8 @@ public class GameHandler {
         }
 
         tile.setVisibility(true);
+		
+		System.out.println(this.readGameBoard());
 
     }
 
@@ -147,6 +149,8 @@ public class GameHandler {
 
         flag = tile.isFlagged();
         tile.setFlag(!flag);
+
+		System.out.println(this.readGameBoard());
 
     }
 }

@@ -20,8 +20,6 @@ public class SceneManager {
     private final SceneFunctions functions;
     private final GameHandler gameHdr;
 
-    private boolean running = false;
-
     // CONSTRUCTOR
     public SceneManager(GameHandler gameHdr, Scanner consoleIn) {
 
@@ -38,7 +36,7 @@ public class SceneManager {
     }
 
     // METHODS
-    public void run(String startFrom) {
+    /*public void run(String startFrom) {
 
         this.running = true;
         var currentScene = startFrom;
@@ -60,7 +58,11 @@ public class SceneManager {
             this.running = this.functions.runFunction(reply);
 
         }
-    }
+    }*/
+
+	public boolean performFunction(String sceneTag, String sceneOutput) {
+		return this.functions.runFunction(sceneTag, sceneOutput);
+	}
 
     public String[] once(String sceneTag) {
 
@@ -103,7 +105,7 @@ public class SceneManager {
 
     }
 
-    private String nextScene(String sceneTag, String sceneReply) {
+    public String nextScene(String sceneTag, String sceneReply) {
 
         // Verify that sceneTag is registered in both Maps
         boolean validScene = this.scenes.containsKey(sceneTag) && this.sceneLinks.containsKey(sceneTag);
